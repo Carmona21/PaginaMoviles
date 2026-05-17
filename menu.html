@@ -6,32 +6,40 @@
     <title>Menú Principal</title>
     <link rel="stylesheet" href="./css/bootstrap/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/bootstrap/css/style.css">
 </head>
-<body class="bg-light d-flex align-items-center min-vh-100">
+<body class="dark-mode d-flex align-items-center min-vh-100">
 
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
                 <div class="card border-0 shadow rounded-4 p-4 p-md-5 text-center">
                     
-                    <h2 class="fw-bold mb-5 text-dark">Menú Principal</h2>
+                    <h2 class="fw-bold mb-5">Menú Principal</h2>
 
                     <div class="d-grid gap-3">
-                        
-                        <a href="pantalla_qr.html" class="btn btn-primary btn-lg rounded-pill py-3">
+
+                        <a href="pantalla_qr.html"
+                        class="btn btn-menu btn-qr">
+                            <i class="bi bi-camera-fill me-2"></i>
                             Escanear QR
                         </a>
-                        
-                        <a href="generar_qr.html" class="btn btn-primary btn-lg rounded-pill py-3">
+
+                        <a href="generar_qr.html"
+                        class="btn btn-menu btn-generar">
+                            <i class="bi bi-upc-scan me-2"></i>
                             Generar QR del día
                         </a>
-                        
-                        <a href="gestion.html" class="btn btn-primary btn-lg rounded-pill py-3">
+
+                        <a href="gestion.html"
+                        class="btn btn-menu btn-gestion">
+                            <i class="bi bi-person-badge me-2"></i>
                             Gestión de Asistencias
                         </a>
-                        
-                        <a href="informes.html" class="btn btn-primary btn-lg rounded-pill py-3">
+
+                        <a href="informes.html"
+                        class="btn btn-menu btn-informes">
+                            <i class="bi bi-graph-up-arrow me-2"></i>
                             Informes y Gráficas
                         </a>
 

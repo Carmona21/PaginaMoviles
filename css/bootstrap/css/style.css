@@ -43,3 +43,56 @@
 .dark-mode p{
     color: white;
 }
+
+.menu-card{
+    background-color: #1E1E1E;
+    color: white;
+}
+
+.btn-menu{
+    border: none;
+    border-radius: 16px;
+
+    padding: 12px 18px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+}
+
+.btn-qr{
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn-generar{
+    background-color: var(--color-purple);
+    color: white;
+}
+
+.btn-gestion{
+    background-color: var(--color-blue-light);
+    color: white;
+}
+
+.btn-informes{
+    background-color: var(--color-green-light);
+    color: white;
+}
+
+.btn-img{
+    display: inline-block;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.btn-img img{
+    width: 80px;
+    transition: transform 0.3s ease;
+}
+
+.btn-img img:hover{
+    transform: scale(1.1);
+}

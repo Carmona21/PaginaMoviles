@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Asistencia</title>
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap-icons.css">
+    <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-light d-flex align-items-center min-vh-100">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="card border-0 shadow rounded-4 p-4 text-center">
+                    
+                    <h2 class="fw-bold text-dark mt-2 mb-4">Editar Asistencia</h2>
+
+                    <form>
+                        <div class="mb-3">
+                            <input type="number" class="form-control form-control-lg" id="etMatricula" placeholder="Matrícula (9 dígitos)" max="999999999" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control form-control-lg" id="etNombre" placeholder="Nombre completo" required>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="etFecha" class="form-label small text-muted px-1">Seleccionar Fecha</label>
+                            <input type="date" class="form-control form-control-lg" id="etFecha" required>
+                        </div>
+
+                        <div class="mb-4 text-start">
+                            <label for="etHora" class="form-label small text-muted px-1">Seleccionar Hora</label>
+                            <input type="time" class="form-control form-control-lg" id="etHora" required>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <a href="gestion.html" class="btn btn-danger btn-lg w-100 py-2">Cancelar</a>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-success btn-lg w-100 py-2">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

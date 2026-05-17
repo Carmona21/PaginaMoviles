@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta</title>
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap-icons.css">
+    <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-light d-flex align-items-center min-vh-100">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+                    
+                    <h2 class="text-center fw-bold mb-4">Crear Cuenta</h2>
+
+                    <form>
+                        <div class="mb-3">
+                            <input type="text" class="form-control form-control-lg" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control form-control-lg" placeholder="Correo electrónico" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control form-control-lg" placeholder="Contraseña" required>
+                        </div>
+
+                        <p class="mb-2 mt-4">Selecciona tu rol:</p>
+                        <div class="d-flex gap-4 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rolUsuario" id="rbAlumno" checked>
+                                <label class="form-check-label" for="rbAlumno">Alumno</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rolUsuario" id="rbMaestro">
+                                <label class="form-check-label" for="rbMaestro">Maestro</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 d-none" id="divCodigoMaestro">
+                            <input type="password" class="form-control form-control-lg" placeholder="Código de Maestro">
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100 mt-2" style="background-color: #050505;">Registrarse</button>
+                        
+                        <div class="text-center mt-3">
+                            <a href="index.html" class="text-decoration-none text-secondary">Volver al inicio</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

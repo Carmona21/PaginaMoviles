@@ -1,0 +1,45 @@
+:root {
+  --color-black: #FF000000;
+  --color-white: #FFFFFFFF;
+  --color-primary: #0026E9;
+  --color-green: #2ECC71;
+  --color-red: #F44336;
+  --color-green-light: #03dac6;
+  --color-purple: #3B38FF;
+  --color-blue-light: #008EEA;
+  --color-magenta: #E11584;
+}
+
+.dark-mode{
+    background-color: #121212;
+    color: var(--color-white);
+}
+
+.dark-mode .card{
+    background-color: #1E1E1E;
+    color: var(--color-white);
+}
+
+.dark-mode .form-control{
+    background-color: #2A2A2A;
+    border: 1px solid #444;
+    color: white;
+}
+
+.dark-mode .form-control::placeholder{
+    color: #BDBDBD;
+}
+
+.dark-mode .form-control:focus{
+    background-color: #2A2A2A;
+    color: white;
+    box-shadow: 0 0 0 0.2rem var(--color-green-light);
+}
+
+.dark-mode .form-check-label{
+    color: white;
+}
+
+.dark-mode p{
+    color: white;
+}

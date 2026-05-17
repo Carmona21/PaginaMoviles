@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Clases</title>
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap-icons.css">
+    <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-light d-flex align-items-center min-vh-100">
+
+    <div class="container py-5">
+        <h2 class="text-center fw-bold mb-5">Selecciona una Clase</h2>
+        
+        <div id="contenedorClases" class="row justify-content-center gap-3">
+            <div class="text-center">Cargando clases...</div>
+        </div>
+
+        <div class="text-center mt-5">
+            <button class="btn btn-outline-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/lista_clases.js"></script>
+    <script>
+        function cerrarSesion() {
+            localStorage.clear();
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

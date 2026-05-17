@@ -1,20 +1,24 @@
-// firebase-config.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+// js/firebase-config.js
 
-// Tu configuración de Firebase extraída del JSON de Android
+// 1. Importar la inicialización principal
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+// 2. Importar el servicio de Realtime Database (¡vital para replicar tu app Android!)
+import { getDatabase } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+
+// 3. Tu configuración oficial
 const firebaseConfig = {
-  apiKey: "AIzaSyAYw7FNTX9c3MNDpt2v58LkGENHA13UQ5Q",
+  apiKey: "AIzaSyBlS6Por3XMgyXXMhp9p-QcfrfB0N2FnmY",
   authDomain: "basedatosappasistenciaqr.firebaseapp.com",
+  databaseURL: "https://basedatosappasistenciaqr-default-rtdb.firebaseio.com",
   projectId: "basedatosappasistenciaqr",
   storageBucket: "basedatosappasistenciaqr.firebasestorage.app",
-  messagingSenderId: "443335342223"
+  messagingSenderId: "443335342223",
+  appId: "1:443335342223:web:4f71914c0aafd1680158fa"
 };
 
-// Inicializar la aplicación de Firebase
+// 4. Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 
-// Exportar los servicios para que los uses en tus pantallas HTML
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// 5. Exportar la base de datos para usarla en login.js, gestion.js, etc.
+export const db = getDatabase(app);

@@ -15,41 +15,47 @@
             <div class="col-12 col-md-8 col-lg-5">
                 <div class="card border-0 shadow rounded-4 p-4 text-center">
                     
-                    <h2 class="fw-bold mt-2">Nueva Asistencia</h2>
+                    <h2 class="fw-bold mt-2 text-white">Nueva Asistencia</h2>
+                    <p class="text-white  mb-4" id="tvSubtituloNuevo">Registro manual de alumno</p>
 
                     <div class="d-flex justify-content-center mb-4">
                         <dotlottie-wc
                             src="https://lottie.host/0b6a4d53-486b-4461-86f4-be3272f20d72/chEVsKQKqk.lottie"
-                            style="width: 100%; max-width: 300px; height: auto;"
+                            style="width: 100%; max-width: 250px; height: auto;"
                             autoplay
                             loop
                         ></dotlottie-wc>
                     </div>
-                    <form>
-                        <div class="mb-3">
-                            <input type="number" class="form-control form-control-lg" id="etMatricula" placeholder="Matrícula (9 dígitos)" max="999999999" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="text" class="form-control form-control-lg" id="etNombre" placeholder="Nombre completo" required>
+                    
+                    <form id="formNuevoRegistro">
+                        <div class="mb-3 text-start">
+                            <label for="etMatricula" class="form-label small fw-bold text-secondary px-1">Matrícula (9 dígitos)</label>
+                            <input type="text" class="form-control form-control-lg" id="etMatricula" placeholder="Ej: 202212345" maxlength="9" required>
                         </div>
 
                         <div class="mb-3 text-start">
-                            <label for="etFecha" class="form-label small text-muted px-1">Seleccionar Fecha</label>
-                            <input type="date" class="form-control form-control-lg" id="etFecha" required>
+                            <label for="etNombre" class="form-label small fw-bold text-secondary px-1">Nombre Completo</label>
+                            <input type="text" class="form-control form-control-lg" id="etNombre" placeholder="Ej: Juan Pérez" required>
                         </div>
 
-                        <div class="mb-4 text-start">
-                            <label for="etHora" class="form-label small text-muted px-1">Seleccionar Hora</label>
-                            <input type="time" class="form-control form-control-lg" id="etHora" required>
+                        <div class="row">
+                            <div class="col-6 mb-4 text-start">
+                                <label for="etFecha" class="form-label small fw-bold text-secondary px-1">Fecha</label>
+                                <input type="date" class="form-control form-control-lg" id="etFecha" required>
+                            </div>
+
+                            <div class="col-6 mb-4 text-start">
+                                <label for="etHora" class="form-label small fw-bold text-secondary px-1">Hora</label>
+                                <input type="time" class="form-control form-control-lg" id="etHora" required>
+                            </div>
                         </div>
 
                         <div class="row g-3">
                             <div class="col-6">
-                                <a href="menu.html" class="btn btn-danger btn-lg w-100 py-2">Atrás</a>
+                                <a href="gestion.html" class="btn btn-danger btn-lg w-100 py-2 rounded-4">Cancelar</a>
                             </div>
                             <div class="col-6">
-                                <button type="submit" class="btn btn-success btn-lg w-100 py-2">Registrar</button>
+                                <button type="submit" class="btn btn-success btn-lg w-100 py-2 rounded-4">Registrar</button>
                             </div>
                         </div>
                     </form>
@@ -59,9 +65,8 @@
         </div>
     </div>
 
-    <script
-        src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
-        type="module"
-    ></script>
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
+    
+    <script type="module" src="js/nuevo_registro.js"></script>
 </body>
 </html>

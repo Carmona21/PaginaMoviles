@@ -15,17 +15,18 @@
             <div class="col-12 col-md-8 col-lg-5 p-4">
 
                 <h2 class="fw-bold text-dark mb-2">Código QR de Asistencia</h2>
-                <p>Escanea para registrar asistencia</p>
-                <h5 class="text-muted mb-5" id="tvFechaQR">Fecha: 2026-05-14</h5>
+                <p class="text-secondary">Escanea para registrar asistencia</p>
+                <h5 class="text-muted mb-4" id="tvFechaQR">Cargando fecha...</h5>
 
-                <div class="d-inline-block p-3 bg-white border border-secondary border-opacity-25 rounded-4 shadow-sm mb-5">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Asistencia-2026-05-14" alt="Código QR" class="img-fluid" style="width: 250px; height: 250px;">
+                <div class="d-inline-block p-3 bg-white border border-secondary border-opacity-25 rounded-4 shadow-sm mb-4">
+                    <img id="imgCodigoQR" src="" alt="Código QR Dinámico" class="img-fluid" style="width: 250px; height: 250px;">
                 </div>
 
-                <p>Nombre de la Clase (NRC)</p>
+                <p class="fw-bold text-dark mb-4" id="tvClaseInfo">Cargando materia...</p>
+                
                 <div>
                     <a href="menu.html" class="btn-img">
-                        <img src="css/bootstrap/img/feedback.png" alt="Regresar">
+                        <img src="css/bootstrap/img/feedback.png" alt="Regresar" style="width: 60px;">
                     </a>
                 </div>
 
@@ -33,5 +34,6 @@
         </div>
     </div>
 
+    <script type="module" src="js/generar_qr.js"></script>
 </body>
 </html>

@@ -26,34 +26,41 @@
                         ></dotlottie-wc>
                     </div>
 
-                    <form>
+                    <form id="registroForm">
                         <div class="mb-3">
-                            <input type="text" class="form-control form-control-lg" placeholder="Nombre completo" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" class="form-control form-control-lg" placeholder="Correo electrónico" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control form-control-lg" placeholder="Contraseña" required>
+                            <input type="text" class="form-control form-control-lg" id="etNombreRegistro" placeholder="Nombre completo" required>
                         </div>
 
+                        <div class="mb-3">
+                            <input type="email" class="form-control form-control-lg" id="etCorreoRegistro" placeholder="Correo electrónico" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="password" class="form-control form-control-lg" id="etPassRegistro" placeholder="Contraseña" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" id="etMatriculaRegistro" class="form-control form-control-lg" placeholder="Matrícula (9 dígitos)">
+                        </div>
+
+
                         <p class="mb-2 mt-4">Selecciona tu rol:</p>
-                        <div class="d-flex gap-4 mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="rolUsuario" id="rbAlumno" checked>
+                        <div class="mb-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="rolRadio" id="rbAlumno" checked>
                                 <label class="form-check-label" for="rbAlumno">Alumno</label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="rolUsuario" id="rbMaestro">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="rolRadio" id="rbMaestro">
                                 <label class="form-check-label" for="rbMaestro">Maestro</label>
                             </div>
                         </div>
 
-                        <div class="mb-4 d-none" id="divCodigoMaestro">
-                            <input type="password" class="form-control form-control-lg" placeholder="Código de Maestro">
+                        <div class="mb-3">
+                            <input type="password" id="etCodigoMaestro" class="form-control mb-3" placeholder="Código de Maestro (123456)">
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-lg w-100 mt-2">Registrarse</button>
+                        <button id="btnFinalizarRegistro" class="btn btn-success w-100 mt-2">Registrar</button>
                     </form>
 
                 </div>
@@ -61,6 +68,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/registro.js"></script>
     <script
         src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
         type="module"

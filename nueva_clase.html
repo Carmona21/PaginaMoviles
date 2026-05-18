@@ -25,29 +25,33 @@
                             loop
                         ></dotlottie-wc>
                     </div>
-                    <form>
+                    <form id="claseForm">
                         <div class="mb-3">
-                            <input type="text" class="form-control form-control-lg" id="etNombreClase" placeholder="Nombre de la clase" required>
+                            <label class="form-label text-secondary small fw-bold">Nombre de la Materia</label>
+                            <input type="text" class="form-control form-control-lg" id="etNombreClase" placeholder="Ej: Desarrollo de Aplicaciones" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small fw-bold">NRC (5 dígitos)</label>
+                            <input type="text" class="form-control form-control-lg" id="etNrcClase" placeholder="Ej: 12345" maxlength="5" required>
                         </div>
 
                         <div class="mb-3">
-                            <input type="number" class="form-control form-control-lg" id="etNRC" placeholder="NRC de la clase (5 digitos)" required>
+                            <label class="form-label text-secondary small fw-bold">Estudiantes Inscritos</label>
+                            <input type="number" class="form-control form-control-lg" id="etEstudiantesClase" placeholder="Ej: 35" min="0" required>
                         </div>
 
-                        <div class="mb-3">
-                            <input type="number" class="form-control form-control-lg" id="etEstudiantes" placeholder="Número de estudiantes inscritos" required>
+                        <div class="mb-4">
+                            <label class="form-label text-secondary small fw-bold">Horario de Clase</label>
+                            <input type="text" class="form-control form-control-lg" id="etHorarioClase" placeholder="Ej: Lun-Mie 09:00 AM" required>
                         </div>
 
-                        <div class="mb-3">
-                            <input type="number" class="form-control form-control-lg" id="etEstudiantes" placeholder="Horario (Ej: Lun-Mie 09:00 AM)" required>
-                        </div>
-
-                        <div class="row g-3">
+                        <div class="row g-2">
                             <div class="col-6">
-                                <a href="menu.html" class="btn btn-danger btn-lg w-100 py-2">Cancelar</a>
+                                <a href="lista_clases.html" class="btn btn-danger w-100 py-2 rounded-4">Cancelar</a>
                             </div>
                             <div class="col-6">
-                                <button type="submit" class="btn btn-success btn-lg w-100 py-2">Guardar</button>
+                                <button type="submit" id="btnGuardarClase" class="btn btn-success w-100 py-2 rounded-4">Guardar</button>
                             </div>
                         </div>
                     </form>
@@ -61,5 +65,6 @@
         src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
         type="module"
     ></script>
+    <script type="module" src="js/nueva_clase.js"></script>
 </body>
 </html>

@@ -4,110 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Clases Asignadas</title>
-
     <link rel="stylesheet" href="./css/bootstrap/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="./css/bootstrap/css/style.css">
 </head>
-
 <body class="bg-light gestion-page">
 
     <div class="container py-4">
-
-        <h2 class="text-center fw-bold text-dark mb-3">
-            Mis Clases Asignadas
-        </h2>
+        <h2 class="text-center fw-bold text-dark mb-3">Mis Clases Asignadas</h2>
 
         <div class="text-center mb-4">
-            <img src="css/bootstrap/img/elearning.png"
-                 alt="Clases"
-                 class="img-fluid gestion-img">
+            <img src="css/bootstrap/img/elearning.png" alt="Clases" class="img-fluid gestion-img" style="width: 150px; height: 150px; object-fit: contain;">
         </div>
 
-        <div class="clases-container">
-
-            <div id="contenedorClases">
-
-                <div class="clase-item">
-
-                    <div class="row align-items-center">
-
-                        <div class="col-8">
-
-                            <h4 class="fw-bold text-dark mb-4">
-                                Materia
-                            </h4>
-
-                            <p class="mb-2 text-secondary">
-                                NRC: 00000
-                            </p>
-
-                            <p class="mb-0 text-secondary">
-                                Horario
-                            </p>
-
-                        </div>
-
-                        <div class="col-4 text-end">
-
-                            <div class="mb-4">
-
-                                <button class="btn btn-link text-warning p-0 me-3">
-                                    <i class="bi bi-pencil-fill fs-4"></i>
-                                </button>
-
-                                <button class="btn btn-link text-danger p-0">
-                                    <i class="bi bi-trash-fill fs-4"></i>
-                                </button>
-
-                            </div>
-
-                            <div class="fw-bold text-success inscritos-text">
-                                Inscritos: 0
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="row g-3 mb-5" id="contenedorClases">
+            <div class="text-center text-muted">Cargando clases...</div>
         </div>
 
-        <div class="row g-3 acciones-bottom">
-
+        <div class="row g-3 acciones-bottom mt-4">
             <div class="col-6 text-start">
-
-                <a href="menu.html"
-                   class="btn btn-danger btn-salir">
-
-                    <i class="bi bi-box-arrow-left me-2"></i>
-                    Salir
-
-                </a>
-
+                <button onclick="cerrarSesion()" class="btn btn-danger btn-salir w-100 py-2 rounded-4">
+                    <i class="bi bi-box-arrow-left me-2"></i> Salir
+                </button>
             </div>
-
             <div class="col-6 text-end">
-
-                <a href="nueva_clase.html"
-                   class="btn btn-success btn-nuevo">
-
-                    <i class="bi bi-plus-square me-2"></i>
-                    Nueva Clase
-
+                <a href="nueva_clase.html" class="btn btn-success btn-nuevo w-100 py-2 rounded-4">
+                    <i class="bi bi-plus-square me-2"></i> Nueva Clase
                 </a>
-
             </div>
-
         </div>
-
     </div>
 
+    <div class="modal fade" id="modalEditarClase" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow rounded-4 text-dark">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="modalEditarClaseLabel">Editar Información de Clase</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <form id="formEditarClase">
+                        <input type="hidden" id="modalIdClase">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">Nombre de la clase</label>
+                            <input type="text" class="form-control form-control-lg" id="modalEtNombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">NRC (5 dígitos)</label>
+                            <input type="text" class="form-control form-control-lg" id="modalEtNrc" maxlength="5" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">Estudiantes inscritos</label>
+                            <input type="number" class="form-control form-control-lg" id="modalEtEstudiantes" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">Horario (Ej: Lun-Mie 09:00 AM)</label>
+                            <input type="text" class="form-control form-control-lg" id="modalEtHorario" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary rounded-4 px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnGuardarCambiosModal" class="btn btn-success rounded-4 px-4">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEliminarClase" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow rounded-4 text-dark text-center p-3">
+                <div class="modal-body py-4">
+                    <i class="bi bi-exclamation-triangle-fill text-warning mb-3" style="font-size: 3rem;"></i>
+                    <h4 class="fw-bold">¿Eliminar Materia?</h4>
+                    <p class="text-secondary mt-2" id="txtMensajeEliminarClase">¿Estás seguro de que deseas eliminar esta materia?</p>
+                </div>
+                <div class="modal-footer border-0 pt-0 justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary rounded-4 px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnConfirmarEliminarClase" class="btn btn-danger rounded-4 px-4">Sí, eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="js/lista_clases.js"></script>
-     <script>
+    <script>
         function cerrarSesion() {
             localStorage.clear();
             window.location.href = "index.html";

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear nueva clase</title>
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap-icons.css">
+    <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./css/bootstrap/css/style.css">
+</head>
+<body class="dark-mode d-flex align-items-center min-vh-100">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="card border-0 shadow rounded-4 p-4 text-center">
+                    
+                    <h2 class="fw-bold mt-2 mb-4">Nueva Clase</h2>
+
+                    <div class="d-flex justify-content-center mb-4">
+                        <dotlottie-wc
+                            src="https://lottie.host/371fb8c7-5612-4a19-bffc-9af618b4d4ce/kx1iZTpKMZ.lottie"
+                            style="width: 100%; max-width: 300px; height: auto;"
+                            autoplay
+                            loop
+                        ></dotlottie-wc>
+                    </div>
+                    <form>
+                        <div class="mb-3">
+                            <input type="text" class="form-control form-control-lg" id="etNombreClase" placeholder="Nombre de la clase" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="number" class="form-control form-control-lg" id="etNRC" placeholder="NRC de la clase (5 digitos)" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="number" class="form-control form-control-lg" id="etEstudiantes" placeholder="Número de estudiantes inscritos" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="number" class="form-control form-control-lg" id="etEstudiantes" placeholder="Horario (Ej: Lun-Mie 09:00 AM)" required>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <a href="menu.html" class="btn btn-danger btn-lg w-100 py-2">Cancelar</a>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-success btn-lg w-100 py-2">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script
+        src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
+        type="module"
+    ></script>
+</body>
+</html>

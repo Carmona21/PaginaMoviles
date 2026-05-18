@@ -1,14 +1,18 @@
-:root {
-  --color-black: #FF000000;
-  --color-white: #FFFFFFFF;
-  --color-primary: #0026E9;
-  --color-green: #2ECC71;
-  --color-red: #F44336;
-  --color-green-light: #03dac6;
-  --color-purple: #3B38FF;
-  --color-blue-light: #008EEA;
-  --color-magenta: #E11584;
+:root{
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    --color-primary: #0026E9;
+    --color-green: #2ECC71;
+    --color-red: #F44336;
+    --color-green-light: #03dac6;
+    --color-purple: #3B38FF;
+    --color-blue-light: #008EEA;
+    --color-magenta: #E11584;
 }
+
+/* ========================= */
+/* DARK MODE */
+/* ========================= */
 
 .dark-mode{
     background-color: #121212;
@@ -36,13 +40,14 @@
     box-shadow: 0 0 0 0.2rem var(--color-green-light);
 }
 
-.dark-mode .form-check-label{
-    color: white;
-}
-
+.dark-mode .form-check-label,
 .dark-mode p{
     color: white;
 }
+
+/* ========================= */
+/* MENU */
+/* ========================= */
 
 .menu-card{
     background-color: #1E1E1E;
@@ -52,39 +57,25 @@
 .btn-menu{
     border: none;
     border-radius: 16px;
-
     padding: 12px 18px;
-
     font-size: 16px;
     font-weight: 600;
-
-    transition: all 0.3s ease;
+    transition: 0.3s ease;
 }
 
-.btn-qr{
-    background-color: var(--color-primary);
-    color: white;
-}
+.btn-qr{ background-color: var(--color-primary); color: white; }
+.btn-generar{ background-color: var(--color-purple); color: white; }
+.btn-gestion{ background-color: var(--color-blue-light); color: white; }
+.btn-informes{ background-color: var(--color-green-light); color: white; }
 
-.btn-generar{
-    background-color: var(--color-purple);
-    color: white;
-}
-
-.btn-gestion{
-    background-color: var(--color-blue-light);
-    color: white;
-}
-
-.btn-informes{
-    background-color: var(--color-green-light);
-    color: white;
-}
+/* ========================= */
+/* BOTONES IMAGEN */
+/* ========================= */
 
 .btn-img{
     display: inline-block;
-    border: none;
     background: transparent;
+    border: none;
     cursor: pointer;
 }
 
@@ -95,4 +86,124 @@
 
 .btn-img img:hover{
     transform: scale(1.1);
+}
+
+/* ========================= */
+/* PANTALLAS GESTION */
+/* ========================= */
+
+.gestion-page{
+    background-color: #F5F5F5;
+    padding-bottom: 120px;
+}
+
+.gestion-img{
+    max-width: 170px;
+}
+
+/* CONTENEDORES */
+
+.gestion-page .asistencia-container,
+.gestion-page .clases-container{
+    background-color: #E0E0E0;
+    border-radius: 25px;
+    padding: 25px;
+    max-width: 1100px;
+    margin: auto;
+    min-height: 450px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ITEMS */
+
+.gestion-page .asistencia-item,
+.gestion-page .clase-item{
+    background-color: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: 0.3s;
+}
+
+.gestion-page .asistencia-item:hover,
+.gestion-page .clase-item:hover{
+    transform: translateY(-2px);
+}
+
+/* TEXTO */
+
+.fecha-asistencia{
+    font-size: 0.85rem;
+}
+
+.hora-asistencia{
+    color: #009688;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.inscritos-text{
+    font-size: 20px;
+}
+
+/* ========================= */
+/* BOTONES INFERIORES */
+/* ========================= */
+
+.gestion-page .acciones-bottom{
+    margin-top: 25px;
+}
+
+.gestion-page .btn-salir,
+.gestion-page .btn-nuevo{
+    border-radius: 15px;
+    font-weight: 600;
+    padding: 12px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.gestion-page .btn-salir:hover,
+.gestion-page .btn-nuevo:hover{
+    transform: translateY(-2px);
+}
+
+/* ========================= */
+/* INFORMES */
+/* ========================= */
+
+.informes-page{
+    background-color: var(--color-white);
+}
+
+
+.asistencia-card{
+    background-color: var(--color-green);
+    min-height: 140px;
+}
+
+.faltas-card{
+    background-color: var(--color-red);
+    min-height: 140px;
+}
+
+
+.grafica-container{
+    width: 100%;
+    min-height: 320px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #F5F5F5;
+
+    border-radius: 20px;
+
+    padding: 20px;
+}
+
+#graficaPastel{
+    max-height: 320px;
 }

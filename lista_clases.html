@@ -26,9 +26,12 @@
 
         <div class="clases-container">
 
-            <div id="recyclerViewClases">
+            <div id="contenedorClases">
+
                 <div class="clase-item">
+
                     <div class="row align-items-center">
+
                         <div class="col-8">
 
                             <h4 class="fw-bold text-dark mb-4">
@@ -44,6 +47,7 @@
                             </p>
 
                         </div>
+
                         <div class="col-4 text-end">
 
                             <div class="mb-4">
@@ -102,5 +106,12 @@
 
     </div>
 
+    <script type="module" src="js/lista_clases.js"></script>
+     <script>
+        function cerrarSesion() {
+            localStorage.clear();
+            window.location.href = "index.html";
+        }
+    </script>
 </body>
 </html>

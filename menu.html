@@ -15,30 +15,27 @@
             <div class="col-12 col-md-8 col-lg-6">
                 <div class="card border-0 shadow rounded-4 p-4 p-md-5 text-center">
                     
-                    <h2 class="fw-bold mb-5">Menú Principal</h2>
+                    <h2 class="fw-bold mb-2">Menú Principal</h2>
+                    <p id="tvDetalleMenu" class="text-secondary small mb-5"></p>
 
                     <div class="d-grid gap-3">
 
-                        <a href="pantalla_qr.html"
-                        class="btn btn-menu btn-qr">
+                        <a href="pantalla_qr.html" id="btnEscanerQR" class="btn btn-menu btn-qr py-3 rounded-4 fw-bold">
                             <i class="bi bi-camera-fill me-2"></i>
                             Escanear QR
                         </a>
 
-                        <a href="generar_qr.html"
-                        class="btn btn-menu btn-generar">
+                        <a href="generar_qr.html" id="btnGenerarQR" class="btn btn-menu btn-generar py-3 rounded-4 fw-bold">
                             <i class="bi bi-upc-scan me-2"></i>
                             Generar QR del día
                         </a>
 
-                        <a href="gestion.html"
-                        class="btn btn-menu btn-gestion">
+                        <a href="gestion.html" id="btnGestion" class="btn btn-menu btn-gestion py-3 rounded-4 fw-bold">
                             <i class="bi bi-person-badge me-2"></i>
                             Gestión de Asistencias
                         </a>
 
-                        <a href="informes.html"
-                        class="btn btn-menu btn-informes">
+                        <a href="informes.html" id="btnInformes" class="btn btn-menu btn-informes py-3 rounded-4 fw-bold">
                             <i class="bi bi-graph-up-arrow me-2"></i>
                             Informes y Gráficas
                         </a>
@@ -46,7 +43,9 @@
                     </div>
 
                     <div class="text-center mt-5">
-                        <a href="index.html" class="text-decoration-none text-secondary small">Cerrar Sesión</a>
+                        <button id="btnCerrarSesionMenu" class="btn btn-danger w-100 py-3 rounded-4 fw-bold">
+                            <i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión
+                        </button>
                     </div>
 
                 </div>
@@ -54,5 +53,6 @@
         </div>
     </div>
 
+    <script type="module" src="js/menu.js"></script>
 </body>
 </html>

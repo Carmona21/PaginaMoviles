@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escáner QR</title>
+    <title>Escanear QR</title>
     <link rel="stylesheet" href="./css/bootstrap/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/bootstrap/css/style.css">
+    
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
-<body class="d-flex align-items-center min-vh-100 text-white">
+<body class="bg-white d-flex flex-column min-vh-100">
 
-    <div class="container text-center">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-5">
-                
-                <h3 class="mb-4">Escaneando Código QR...</h3>
+    <div class="container text-center py-5">
+        <h2 class="fw-bold text-dark mb-2">Registrar Asistencia</h2>
+        <p class="text-secondary mb-4">Apunta la cámara de tu dispositivo al código QR de la clase.</p>
 
-                <div id="reader" class="my-4"></div>
-
-                <div class="mt-4">
-                    <a href="menu.html" class="btn btn-outline-light rounded-pill px-4">Cancelar / Volver</a>
-                </div>
-
+        <div class="row justify-content-center mb-4">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div id="lector-qr" class="shadow-sm rounded-4 overflow-hidden border w-100"></div>
             </div>
         </div>
+
+        <div>
+            <a href="menu.html" class="btn btn-danger btn-lg rounded-4 px-5">
+                <i class="bi bi-arrow-left-circle me-2"></i> Cancelar
+            </a>
+        </div>
     </div>
+
+    <script type="module" src="js/pantalla_qr.js"></script>
 </body>
 </html>

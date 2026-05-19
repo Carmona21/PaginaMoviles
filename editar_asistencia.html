@@ -15,42 +15,49 @@
             <div class="col-12 col-md-8 col-lg-5">
                 <div class="card border-0 shadow rounded-4 p-4 text-center">
                     
-                    <h2 class="fw-bold mt-2 mb-4">Editar Asistencia</h2>
+                    <h2 class="fw-bold mt-2 mb-2 text-white">Editar Asistencia</h2>
+                    <p class="text-secondary small mb-4" id="tvSubtituloEditar">Modificando registro</p>
 
                     <div class="d-flex justify-content-center mb-4">
                         <dotlottie-wc
                             src="https://lottie.host/1bfa849f-5001-44b2-81c6-b49dc67197be/ZnoLgX0qBu.lottie"
-                            style="width: 100%; max-width: 300px; height: auto;"
+                            style="width: 100%; max-width: 200px; height: auto;"
                             autoplay
                             loop
                         ></dotlottie-wc>
                     </div>
                     
                     <form id="formEditarAsistencia" novalidate>
-                        <div class="mb-3">
-                            <input type="number" class="form-control form-control-lg" id="etMatricula" placeholder="Matrícula (9 dígitos)" max="999999999" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="text" class="form-control form-control-lg" id="etNombre" placeholder="Nombre completo" required>
+                        <div class="mb-3 text-start">
+                            <label for="etMatricula" class="form-label small fw-bold text-white px-1">Matrícula (No modificable)</label>
+                            <input type="text" class="form-control form-control-lg bg-black text-white" id="etMatricula" readonly>
                         </div>
 
                         <div class="mb-3 text-start">
-                            <label for="etFecha" class="form-label small text-muted px-1">Seleccionar Fecha</label>
-                            <input type="date" class="form-control form-control-lg" id="etFecha" required>
+                            <label for="etNombre" class="form-label small fw-bold text-white px-1">Nombre Completo</label>
+                            <input type="text" class="form-control form-control-lg" id="etNombre" placeholder="Nombre completo" required>
+                            <div class="form-text text-secondary small">Solo se permiten letras.</div>
                         </div>
 
-                        <div class="mb-4 text-start">
-                            <label for="etHora" class="form-label small text-muted px-1">Seleccionar Hora</label>
-                            <input type="time" class="form-control form-control-lg" id="etHora" required>
+                        <div class="row">
+                            <div class="col-6 mb-4 text-start">
+                                <label for="etFecha" class="form-label small fw-bold text-white px-1">Fecha</label>
+                                <input type="date" class="form-control form-control-lg" id="etFecha" required>
+                                <div class="form-text text-secondary small">No admite fechas futuras.</div>
+                            </div>
+
+                            <div class="col-6 mb-4 text-start">
+                                <label for="etHora" class="form-label small fw-bold text-white px-1">Hora</label>
+                                <input type="time" class="form-control form-control-lg" id="etHora" required>
+                            </div>
                         </div>
 
                         <div class="row g-3">
                             <div class="col-6">
-                                <a href="gestion.html" class="btn btn-danger btn-lg w-100 py-2">Cancelar</a>
+                                <a href="gestion.html" class="btn btn-danger btn-lg w-100 py-2 rounded-4 fw-bold">Cancelar</a>
                             </div>
                             <div class="col-6">
-                                <button type="submit" class="btn btn-success btn-lg w-100 py-2">Guardar</button>
+                                <button type="submit" class="btn btn-success btn-lg w-100 py-2 rounded-4 fw-bold">Guardar</button>
                             </div>
                         </div>
                     </form>
@@ -61,7 +68,6 @@
     </div>
 
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
-    
     <script type="module" src="js/editar_asistencia.js"></script>
 </body>
 </html>

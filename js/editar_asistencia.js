@@ -8,8 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const etNombre = document.getElementById("etNombre");
     const etFecha = document.getElementById("etFecha");
     const etHora = document.getElementById("etHora");
+    const tvSubtituloEditar = document.getElementById("tvSubtituloEditar");
 
-    // 1. Recuperar el registro temporal guardado por gestion.js
+    // 1. Recuperar el registro que se quiere editar
     const dataRaw = localStorage.getItem("asistenciaAEditar");
     if (!dataRaw) {
         alert("No se detectó ninguna asistencia para editar.");
@@ -18,8 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const asistencia = JSON.parse(dataRaw);
+    if (tvSubtituloEditar) {
+        tvSubtituloEditar.innerText = `Modificando registro de NRC: ${asistencia.nrc}`;
+    }
 
-    // Funciones auxiliares para formato de hora (AM/PM <-> 24h)
+    // Funciones de formato de hora
     const convertirA24h = (hora12) => {
         if (!hora12 || !hora12.includes(" ")) return hora12;
         const [time, modifier] = hora12.split(' ');
@@ -40,66 +44,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Poblar los campos con los datos actuales
     etMatricula.value = asistencia.matricula;
-    etMatricula.disabled = true; // Se bloquea la matrícula porque es parte de la llave primaria compuesta
-    
     etNombre.value = asistencia.nombre;
-    etFecha.value = asistencia.fecha; // input type="date" requiere YYYY-MM-DD (que ya tenemos)
-    etHora.value = convertirA24h(asistencia.hora); // Adaptamos para el input type="time"
+    etFecha.value = asistencia.fecha; 
+    etHora.value = convertirA24h(asistencia.hora);
 
-    // 3. Capturar evento de guardado
-    // 3. Capturar evento de guardado
+    // --- RESTRICCIONES EN TIEMPO REAL ---
+
+    // Bloquear fechas futuras en el calendario HTML
+    const hoyStr = new Date().toLocaleDateString('en-CA');
+    etFecha.max = hoyStr;
+
+    // Bloquear números y caracteres especiales en el Nombre
+    etNombre.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    });
+
+    // 3. Capturar evento de guardado y validar
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const nuevoNombre = etNombre.value.trim();
         const nuevaFecha = etFecha.value;
         const nuevaHora24 = etHora.value;
-        
-        const hoyStr = new Date().toLocaleDateString('en-CA'); 
 
-        // Limpiamos los estilos de error previos (no incluimos la matrícula porque esa está bloqueada/disabled)
+        // Limpiamos alertas visuales de errores previos
         [etNombre, etFecha, etHora].forEach(el => el.classList.remove('is-invalid'));
-
         let hayError = false;
 
-        if (nuevoNombre === "") { 
-            etNombre.classList.add('is-invalid'); 
-            hayError = true; 
-        }
-        
-        if (nuevaHora24 === "") { 
-            etHora.classList.add('is-invalid'); 
-            hayError = true; 
+        // Validaciones Finales
+        if (nuevoNombre === "" || nuevoNombre.length < 3) {
+            etNombre.classList.add('is-invalid');
+            hayError = true;
         }
 
-        // Validamos que no esté vacía y que no sea una fecha en el futuro
-        if (nuevaFecha === "" || nuevaFecha > hoyStr) { 
-            etFecha.classList.add('is-invalid'); 
-            hayError = true; 
+        if (nuevaFecha === "") {
+            etFecha.classList.add('is-invalid');
+            hayError = true;
+        } else {
+            // Verificamos por si el usuario evadió la restricción HTML de alguna forma
+            const fechaIngresada = new Date(nuevaFecha);
+            const fechaLimite = new Date(hoyStr);
+            if (fechaIngresada > fechaLimite) {
+                etFecha.classList.add('is-invalid');
+                alert("No es posible registrar una asistencia en el futuro.");
+                hayError = true;
+            }
+        }
+
+        if (nuevaHora24 === "") {
+            etHora.classList.add('is-invalid');
+            hayError = true;
         }
 
         if (hayError) {
-            alert("Por favor, verifica los campos en rojo. Recuerda que no puedes usar fechas futuras.");
+            alert("Por favor corrige los campos marcados en rojo.");
             return;
         }
 
+        // 4. Guardar datos validados
         try {
-            // Reconstruimos el objeto manteniendo el ID inmutable
             const asistenciaActualizada = {
                 id: asistencia.id,
-                matricula: asistencia.matricula, // Viene del objeto original ya que el input está disabled
+                matricula: asistencia.matricula, 
                 nombre: nuevoNombre,
                 fecha: nuevaFecha,
-                hora: convertirA12h(nuevaHora24), // Regresamos al formato AM/PM para la base de datos
+                hora: convertirA12h(nuevaHora24), 
                 nrc: asistencia.nrc
             };
 
-            // Sobreescribimos el nodo original
             await set(ref(db, `Asistencias/${asistencia.id}`), asistenciaActualizada);
 
             alert("Registro de asistencia actualizado correctamente.");
-            
-            // Limpiamos la memoria y volvemos
             localStorage.removeItem("asistenciaAEditar");
             window.location.href = "gestion.html";
 

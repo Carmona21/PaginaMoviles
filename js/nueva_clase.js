@@ -46,41 +46,41 @@ document.addEventListener("DOMContentLoaded", () => {
         const estudiantesStr = etEstudiantes.value.trim();
         const horarioVal = etHorario.value.trim();
 
-        // --- VALIDACIONES DE NEGOCIO (Idénticas a CrearClase.java / ListaClases.java) ---
-        if (nombreVal === "" || nrcVal.length !== 5 || estudiantesStr === "" || horarioVal === "") {
-            alert("Campos inválidos o incompletos. Recuerda que el NRC debe tener exactamente 5 números.");
+        const regexNrc = /^\d{5}$/;
+        const estudiantesVal = Number(estudiantesStr);
+
+        // Limpiar errores visuales
+        [etNombre, etNrc, etEstudiantes, etHorario].forEach(el => el.classList.remove('is-invalid'));
+        
+        let hayError = false;
+
+        if (nombreVal === "") { etNombre.classList.add('is-invalid'); hayError = true; }
+        if (!regexNrc.test(nrcVal)) { etNrc.classList.add('is-invalid'); hayError = true; }
+        if (horarioVal === "") { etHorario.classList.add('is-invalid'); hayError = true; }
+        
+        if (!Number.isInteger(estudiantesVal) || estudiantesVal <= 0) { 
+            etEstudiantes.classList.add('is-invalid'); 
+            hayError = true; 
+        }
+
+        if (hayError) {
+            alert("Por favor, corrige los campos marcados en rojo.");
             return;
         }
 
-        const estudiantesVal = parseInt(estudiantesStr, 10);
-
         try {
             const clasesRef = ref(db, 'Clases');
-            let claseId = "";
+            let claseId = (esEdicion && claseEdicionData) ? claseEdicionData.id : push(clasesRef).key;
 
-            // Si es edición usamos su ID original; si es nueva generamos un nodo hijo con push()
-            if (esEdicion && claseEdicionData) {
-                claseId = claseEdicionData.id;
-            } else {
-                const nuevaClaseRef = push(clasesRef);
-                claseId = nuevaClaseRef.key;
-            }
-
-            // Mapeo estructurado idéntico al constructor Clase(id, nombre, nrc, estudiantesInscritos, horario)
-            const claseObjeto = {
+            await set(ref(db, `Clases/${claseId}`), {
                 id: claseId,
                 nombre: nombreVal,
                 nrc: nrcVal,
                 estudiantesInscritos: estudiantesVal,
                 horario: horarioVal
-            };
-
-            // Escribimos en el nodo Clases/claseId
-            await set(ref(db, `Clases/${claseId}`), claseObjeto);
+            });
 
             alert(esEdicion ? "Materia modificada con éxito" : "Materia registrada con éxito");
-            
-            // Limpieza preventiva del LocalStorage y redirección
             localStorage.removeItem("claseAEditar");
             window.location.href = "lista_clases.html";
 

@@ -47,15 +47,39 @@ document.addEventListener("DOMContentLoaded", () => {
     etHora.value = convertirA24h(asistencia.hora); // Adaptamos para el input type="time"
 
     // 3. Capturar evento de guardado
+    // 3. Capturar evento de guardado
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const nuevoNombre = etNombre.value.trim();
         const nuevaFecha = etFecha.value;
         const nuevaHora24 = etHora.value;
+        
+        const hoyStr = new Date().toLocaleDateString('en-CA'); 
 
-        if (nuevoNombre === "" || nuevaFecha === "" || nuevaHora24 === "") {
-            alert("No puedes dejar campos vacíos.");
+        // Limpiamos los estilos de error previos (no incluimos la matrícula porque esa está bloqueada/disabled)
+        [etNombre, etFecha, etHora].forEach(el => el.classList.remove('is-invalid'));
+
+        let hayError = false;
+
+        if (nuevoNombre === "") { 
+            etNombre.classList.add('is-invalid'); 
+            hayError = true; 
+        }
+        
+        if (nuevaHora24 === "") { 
+            etHora.classList.add('is-invalid'); 
+            hayError = true; 
+        }
+
+        // Validamos que no esté vacía y que no sea una fecha en el futuro
+        if (nuevaFecha === "" || nuevaFecha > hoyStr) { 
+            etFecha.classList.add('is-invalid'); 
+            hayError = true; 
+        }
+
+        if (hayError) {
+            alert("Por favor, verifica los campos en rojo. Recuerda que no puedes usar fechas futuras.");
             return;
         }
 

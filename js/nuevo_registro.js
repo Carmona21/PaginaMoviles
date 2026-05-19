@@ -48,42 +48,46 @@ document.addEventListener("DOMContentLoaded", () => {
         const nombreVal = etNombre.value.trim();
         const fechaVal = etFecha.value;
         const hora24Val = etHora.value;
+        
+        const regexMatricula = /^\d{9}$/;
+        const hoyStr = new Date().toLocaleDateString('en-CA'); 
 
-        // Validaciones estrictas
-        if (matriculaVal.length !== 9) {
-            alert("La matrícula debe contener exactamente 9 dígitos numéricos.");
-            etMatricula.focus();
-            return;
+        // Limpiar errores visuales
+        [etMatricula, etNombre, etFecha, etHora].forEach(el => el.classList.remove('is-invalid'));
+        
+        let hayError = false;
+
+        if (!regexMatricula.test(matriculaVal)) { etMatricula.classList.add('is-invalid'); hayError = true; }
+        if (nombreVal === "") { etNombre.classList.add('is-invalid'); hayError = true; }
+        if (hora24Val === "") { etHora.classList.add('is-invalid'); hayError = true; }
+        
+        if (fechaVal === "" || fechaVal > hoyStr) { 
+            etFecha.classList.add('is-invalid'); 
+            hayError = true; 
         }
 
-        if (nombreVal === "" || fechaVal === "" || hora24Val === "") {
-            alert("Por favor, completa todos los campos requeridos.");
+        if (hayError) {
+            alert("Por favor, verifica los campos en rojo. Recuerda que no puedes registrar fechas futuras.");
             return;
         }
 
         try {
-            const dbRef = ref(db);
             const idCompuesto = `${matriculaVal}_${nrcActual}_${fechaVal}`;
-            
-            // Comprobar que no exista ya un registro para ese alumno, esa clase, ese día
-            const snapshot = await get(child(dbRef, `Asistencias/${idCompuesto}`));
+            const snapshot = await get(child(ref(db), `Asistencias/${idCompuesto}`));
 
             if (snapshot.exists()) {
                 alert("Este alumno ya tiene una asistencia registrada para esta materia en la fecha seleccionada.");
                 return;
             }
 
-            // Mapeo de datos para Firebase
-            const nuevaAsistencia = {
+            await set(ref(db, `Asistencias/${idCompuesto}`), {
                 id: idCompuesto,
                 matricula: matriculaVal,
                 nombre: nombreVal,
                 fecha: fechaVal,
-                hora: convertirA12h(hora24Val), // Guarda como "10:15 AM"
+                hora: convertirA12h(hora24Val), 
                 nrc: nrcActual
-            };
-
-            await set(ref(db, `Asistencias/${idCompuesto}`), nuevaAsistencia);
+            });
 
             alert("Asistencia registrada exitosamente.");
             window.location.href = "gestion.html";

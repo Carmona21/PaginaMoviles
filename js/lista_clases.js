@@ -5,7 +5,7 @@ import { ref, onValue, remove, set } from "https://www.gstatic.com/firebasejs/12
 document.addEventListener("DOMContentLoaded", () => {
     const contenedor = document.getElementById("contenedorClases");
     
-    // Modal de Edición
+    // Configuración del Modal de Edición
     const mEditarClase = new bootstrap.Modal(document.getElementById('modalEditarClase'));
     const modalId = document.getElementById('modalIdClase');
     const modalNombre = document.getElementById('modalEtNombre');
@@ -14,16 +14,37 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalHorario = document.getElementById('modalEtHorario');
     const btnGuardarModal = document.getElementById('btnGuardarCambiosModal');
 
-    // Modal de Eliminación (NUEVO)
+    // Configuración del Modal de Eliminación
     const modalEliminarClaseBS = new bootstrap.Modal(document.getElementById('modalEliminarClase'));
     const btnConfirmarEliminarClase = document.getElementById('btnConfirmarEliminarClase');
     const txtMensajeEliminarClase = document.getElementById('txtMensajeEliminarClase');
-    let idClaseAEliminar = null; // Variable temporal
+    let idClaseAEliminar = null;
 
-    modalNrc.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    // --- RESTRICCIONES EN TIEMPO REAL PARA EL MODAL DE EDICIÓN ---
+
+    // 1. Nombre: Solo letras y espacios
+    modalNombre.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
     });
 
+    // 2. NRC: Estrictamente números (hasta 5, apoyado por maxlength)
+    modalNrc.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5);
+    });
+
+    // 3. Estudiantes: Solo números y forzar límite de 100
+    modalEstudiantes.addEventListener('input', (e) => {
+        let valorNum = e.target.value.replace(/[^0-9]/g, '');
+        if (valorNum !== "") {
+            let cantidad = parseInt(valorNum, 10);
+            if (cantidad > 100) {
+                valorNum = "100";
+            }
+        }
+        e.target.value = valorNum;
+    });
+
+    // Lógica para cargar y renderizar las clases
     const clasesRef = ref(db, 'Clases');
     onValue(clasesRef, (snapshot) => {
         contenedor.innerHTML = ""; 
@@ -72,8 +93,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.location.href = "menu.html";
                 });
 
+                // Cargar datos al modal
                 btnEditar.addEventListener("click", (e) => {
                     e.stopPropagation(); 
+                    
+                    // Limpiar clases is-invalid antes de abrir
+                    [modalNombre, modalNrc, modalEstudiantes, modalHorario].forEach(el => el.classList.remove('is-invalid'));
+
                     modalId.value = clase.id;
                     modalNombre.value = clase.nombre;
                     modalNrc.value = clase.nrc;
@@ -82,12 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     mEditarClase.show(); 
                 });
 
-                // NUEVA ACCIÓN AL PRESIONAR EL BOTE DE BASURA
+                // Cargar modal de eliminación
                 btnEliminar.addEventListener("click", (e) => {
                     e.stopPropagation(); 
-                    idClaseAEliminar = clase.id; // Guardamos el ID temporalmente
+                    idClaseAEliminar = clase.id; 
                     txtMensajeEliminarClase.innerText = `¿Estás seguro de eliminar la materia "${clase.nombre}" y todos sus datos?`;
-                    modalEliminarClaseBS.show(); // Mostramos la alerta bonita
+                    modalEliminarClaseBS.show(); 
                 });
 
                 contenedor.appendChild(divCol);
@@ -97,19 +123,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // LÓGICA DE CONFIRMACIÓN DE BORRADO (Se ejecuta al dar "Sí, eliminar")
     btnConfirmarEliminarClase.addEventListener('click', async () => {
         if (idClaseAEliminar) {
             try {
                 await remove(ref(db, `Clases/${idClaseAEliminar}`));
-                modalEliminarClaseBS.hide(); // Ocultamos modal
-                idClaseAEliminar = null; // Limpiamos memoria
+                modalEliminarClaseBS.hide(); 
+                idClaseAEliminar = null; 
             } catch (error) {
                 alert("Error de comunicación con la nube: " + error.message);
             }
         }
     });
 
+    // --- VALIDACIÓN FINAL AL GUARDAR LA EDICIÓN ---
     btnGuardarModal.addEventListener('click', async () => {
         const idVal = modalId.value;
         const nombreVal = modalNombre.value.trim();
@@ -117,13 +143,39 @@ document.addEventListener("DOMContentLoaded", () => {
         const estudiantesStr = modalEstudiantes.value.trim();
         const horarioVal = modalHorario.value.trim();
 
-        if (nombreVal === "" || nrcVal.length !== 5 || estudiantesStr === "" || horarioVal === "") {
-            alert("Campos inválidos o incompletos");
-            return;
+        // 1. Limpiar estados de error
+        [modalNombre, modalNrc, modalEstudiantes, modalHorario].forEach(el => el.classList.remove('is-invalid'));
+
+        let hayError = false;
+
+        // 2. Evaluaciones
+        if (nombreVal === "" || nombreVal.length < 4) {
+            modalNombre.classList.add('is-invalid');
+            hayError = true;
+        }
+
+        if (nrcVal.length !== 5) {
+            modalNrc.classList.add('is-invalid');
+            hayError = true;
         }
 
         const estudiantesVal = parseInt(estudiantesStr, 10);
+        if (estudiantesStr === "" || isNaN(estudiantesVal) || estudiantesVal < 1 || estudiantesVal > 100) {
+            modalEstudiantes.classList.add('is-invalid');
+            hayError = true;
+        }
 
+        if (horarioVal === "") {
+            modalHorario.classList.add('is-invalid');
+            hayError = true;
+        }
+
+        if (hayError) {
+            alert("Por favor corrige los campos en rojo.");
+            return;
+        }
+
+        // 3. Guardado
         try {
             const claseActualizada = {
                 id: idVal,

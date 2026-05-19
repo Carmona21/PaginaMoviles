@@ -45,27 +45,33 @@
                 <div class="modal-body py-4">
                     <form id="formEditarClase" novalidate>
                         <input type="hidden" id="modalIdClase">
+                        
                         <div class="mb-3">
-                            <label class="form-label small fw-bold text-secondary">Nombre de la clase</label>
+                            <label class="form-label small fw-bold text-secondary px-1">Nombre de la clase</label>
                             <input type="text" class="form-control form-control-lg" id="modalEtNombre" required>
+                            <div class="form-text text-secondary small">Solo se permiten letras.</div>
                         </div>
+                        
                         <div class="mb-3">
-                            <label class="form-label small fw-bold text-secondary">NRC (5 dígitos)</label>
+                            <label class="form-label small fw-bold text-secondary px-1">NRC (5 dígitos)</label>
                             <input type="text" class="form-control form-control-lg" id="modalEtNrc" maxlength="5" required>
                         </div>
+                        
                         <div class="mb-3">
-                            <label class="form-label small fw-bold text-secondary">Estudiantes inscritos</label>
-                            <input type="number" class="form-control form-control-lg" id="modalEtEstudiantes" min="0" required>
+                            <label class="form-label small fw-bold text-secondary px-1">Estudiantes inscritos</label>
+                            <input type="number" class="form-control form-control-lg" id="modalEtEstudiantes" min="1" max="100" required>
+                            <div class="form-text text-secondary small">Máximo 100 estudiantes por grupo.</div>
                         </div>
+                        
                         <div class="mb-3">
-                            <label class="form-label small fw-bold text-secondary">Horario (Ej: Lun-Mie 09:00 AM)</label>
+                            <label class="form-label small fw-bold text-secondary px-1">Horario (Ej: Lun-Mie 09:00 AM)</label>
                             <input type="text" class="form-control form-control-lg" id="modalEtHorario" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer border-0 pt-0">
                     <button type="button" class="btn btn-outline-secondary rounded-4 px-4" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" id="btnGuardarCambiosModal" class="btn btn-success rounded-4 px-4">Guardar</button>
+                    <button type="button" id="btnGuardarCambiosModal" class="btn btn-success rounded-4 px-4 fw-bold">Guardar</button>
                 </div>
             </div>
         </div>

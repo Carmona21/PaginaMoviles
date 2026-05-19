@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear nueva clase</title>
+    <title>Gestionar Clase</title>
     <link rel="stylesheet" href="./css/bootstrap/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="./css/bootstrap/css/style.css">
@@ -13,9 +13,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-5">
-                <div class="card border-0 shadow rounded-4 p-4 text-center">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 text-center">
                     
-                    <h2 class="fw-bold mt-2 mb-4">Nueva Clase</h2>
+                    <h2 class="fw-bold mb-4 text-white" id="txtTituloPantalla">Agregar Clase</h2>
 
                     <div class="d-flex justify-content-center mb-4">
                         <dotlottie-wc
@@ -25,33 +25,37 @@
                             loop
                         ></dotlottie-wc>
                     </div>
+
                     <form id="claseForm" novalidate>
-                        <div class="mb-3">
-                            <label class="form-label text-secondary small fw-bold">Nombre de la Materia</label>
+                        
+                        <div class="mb-3 text-start">
+                            <label class="form-label text-white small fw-bold px-1">Nombre de la Materia</label>
                             <input type="text" class="form-control form-control-lg" id="etNombreClase" placeholder="Ej: Desarrollo de Aplicaciones" required>
+                            <div class="form-text text-white small">Solo se permiten letras.</div>
                         </div>
                         
-                        <div class="mb-3">
-                            <label class="form-label text-secondary small fw-bold">NRC (5 dígitos)</label>
+                        <div class="mb-3 text-start">
+                            <label class="form-label text-white small fw-bold px-1">NRC (5 dígitos)</label>
                             <input type="text" class="form-control form-control-lg" id="etNrcClase" placeholder="Ej: 12345" maxlength="5" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label text-secondary small fw-bold">Estudiantes Inscritos</label>
-                            <input type="number" class="form-control form-control-lg" id="etEstudiantesClase" placeholder="Ej: 35" min="0" required>
+                        <div class="mb-3 text-start">
+                            <label class="form-label text-white small fw-bold px-1">Estudiantes Inscritos</label>
+                            <input type="number" class="form-control form-control-lg" id="etEstudiantesClase" placeholder="Ej: 35" min="1" max="100" required>
+                            <div class="form-text text-white small">Máximo 100 estudiantes por grupo.</div>
                         </div>
 
-                        <div class="mb-4">
-                            <label class="form-label text-secondary small fw-bold">Horario de Clase</label>
+                        <div class="mb-4 text-start">
+                            <label class="form-label text-white small fw-bold px-1">Horario de Clase</label>
                             <input type="text" class="form-control form-control-lg" id="etHorarioClase" placeholder="Ej: Lun-Mie 09:00 AM" required>
                         </div>
 
-                        <div class="row g-2">
+                        <div class="row g-2 mt-2">
                             <div class="col-6">
-                                <a href="lista_clases.html" class="btn btn-danger w-100 py-2 rounded-4">Cancelar</a>
+                                <a href="lista_clases.html" class="btn btn-danger w-100 py-2 rounded-4 fw-bold">Cancelar</a>
                             </div>
                             <div class="col-6">
-                                <button type="submit" id="btnGuardarClase" class="btn btn-success w-100 py-2 rounded-4">Guardar</button>
+                                <button type="submit" id="btnGuardarClase" class="btn btn-success w-100 py-2 rounded-4 fw-bold">Guardar</button>
                             </div>
                         </div>
                     </form>
@@ -60,11 +64,11 @@
             </div>
         </div>
     </div>
-
     <script
         src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
         type="module"
     ></script>
+
     <script type="module" src="js/nueva_clase.js"></script>
 </body>
 </html>

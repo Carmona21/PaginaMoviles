@@ -16,7 +16,7 @@
                 <div class="card border-0 shadow rounded-4 p-4 text-center">
                     
                     <h2 class="fw-bold mt-2 text-white">Nueva Asistencia</h2>
-                    <p class="text-white  mb-4" id="tvSubtituloNuevo">Registro manual de alumno</p>
+                    <p class="text-secondary small mb-4" id="tvSubtituloNuevo">Registro manual de alumno</p>
 
                     <div class="d-flex justify-content-center mb-4">
                         <dotlottie-wc
@@ -29,33 +29,35 @@
                     
                     <form id="formNuevoRegistro" novalidate>
                         <div class="mb-3 text-start">
-                            <label for="etMatricula" class="form-label small fw-bold text-secondary px-1">Matrícula (9 dígitos)</label>
+                            <label for="etMatricula" class="form-label small fw-bold text-white px-1">Matrícula (9 dígitos)</label>
                             <input type="text" class="form-control form-control-lg" id="etMatricula" placeholder="Ej: 202212345" maxlength="9" required>
                         </div>
 
                         <div class="mb-3 text-start">
-                            <label for="etNombre" class="form-label small fw-bold text-secondary px-1">Nombre Completo</label>
+                            <label for="etNombre" class="form-label small fw-bold text-white px-1">Nombre Completo</label>
                             <input type="text" class="form-control form-control-lg" id="etNombre" placeholder="Ej: Juan Pérez" required>
+                            <div class="form-text text-white small">Solo se permiten letras.</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 mb-4 text-start">
-                                <label for="etFecha" class="form-label small fw-bold text-secondary px-1">Fecha</label>
+                                <label for="etFecha" class="form-label small fw-bold text-white px-1">Fecha</label>
                                 <input type="date" class="form-control form-control-lg" id="etFecha" required>
+                                <div class="form-text text-white small">No admite fechas futuras.</div>
                             </div>
 
                             <div class="col-6 mb-4 text-start">
-                                <label for="etHora" class="form-label small fw-bold text-secondary px-1">Hora</label>
+                                <label for="etHora" class="form-label small fw-bold text-white px-1">Hora</label>
                                 <input type="time" class="form-control form-control-lg" id="etHora" required>
                             </div>
                         </div>
 
                         <div class="row g-3">
                             <div class="col-6">
-                                <a href="gestion.html" class="btn btn-danger btn-lg w-100 py-2 rounded-4">Cancelar</a>
+                                <a href="gestion.html" class="btn btn-danger btn-lg w-100 py-2 rounded-4 fw-bold">Cancelar</a>
                             </div>
                             <div class="col-6">
-                                <button type="submit" class="btn btn-success btn-lg w-100 py-2 rounded-4">Registrar</button>
+                                <button type="submit" class="btn btn-success btn-lg w-100 py-2 rounded-4 fw-bold">Registrar</button>
                             </div>
                         </div>
                     </form>
@@ -66,7 +68,6 @@
     </div>
 
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
-    
     <script type="module" src="js/nuevo_registro.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 // js/menu.js
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Mapeo de la interfaz de usuario (Equivalente a findViewById)
+    // 1. Mapeo de la interfaz
     const btnEscaner = document.getElementById('btnEscanerQR');
     const btnGenerar = document.getElementById('btnGenerarQR');
     const btnGestion = document.getElementById('btnGestion');
@@ -9,31 +9,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnCerrarSesion = document.getElementById('btnCerrarSesionMenu');
     const tvDetalleMenu = document.getElementById('tvDetalleMenu');
 
-    // 2. Recuperar el rol y los datos contextuales (Equivalente a getIntent().getStringExtra)
+    // 2. Recuperar el rol y los datos de la materia
     const rol = localStorage.getItem("rol");
     const nrcClase = localStorage.getItem("nrcActual");
     const nombreClase = localStorage.getItem("nombreClase");
 
-    // Seguridad: Si no hay un rol activo, redirigir de inmediato al Login
+    // Seguridad perimetral
     if (!rol) {
         window.location.href = "index.html";
         return;
     }
 
-    // 3. Control de visibilidad por roles (Idéntico a la lógica de pantallaMenu.java)
+    // 3. Control de visibilidad y adaptación de interfaz
     if (rol === "admin") {
-        // El profesor tiene todo el menú visible, excepto el escáner de cámara
         if (btnGenerar) btnGenerar.style.display = "block";
         if (btnGestion) btnGestion.style.display = "block";
         if (btnInformes) btnInformes.style.display = "block";
         if (btnEscaner) btnEscaner.style.display = "none";
 
-        // Mostrar opcionalmente la materia activa en la cabecera
         if (nombreClase && nrcClase && tvDetalleMenu) {
             tvDetalleMenu.innerText = `Gestionando: ${nombreClase} (NRC: ${nrcClase})`;
         }
+
+        // CAMBIO VISUAL: Adaptamos el botón de salida para el maestro
+        if (btnCerrarSesion) {
+            btnCerrarSesion.innerText = "Volver a Mis Clases";
+            btnCerrarSesion.classList.replace("text-secondary", "text-primary"); 
+            btnCerrarSesion.classList.add("fw-bold");
+        }
+
     } else {
-        // El alumno va directo al menú simplificado donde solo visualiza "Escanear QR"
         if (btnEscaner) btnEscaner.style.display = "block";
         if (btnGenerar) btnGenerar.style.display = "none";
         if (btnGestion) btnGestion.style.display = "none";
@@ -44,16 +49,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 4. Lógica de Cierre de Sesión (Equivalente a getSharedPreferences().edit().clear().apply())
+    // 4. Lógica de Acción Dividida
     if (btnCerrarSesion) {
         btnCerrarSesion.addEventListener("click", () => {
-            // Limpieza completa del almacenamiento local
-            localStorage.clear();
             
-            alert("Sesión finalizada");
+            if (rol === "admin") {
+                // FLUUJO DEL MAESTRO: Liberar la materia activa y regresar a la lista de clases
+                localStorage.removeItem("nrcActual");
+                localStorage.removeItem("nombreClase");
+                
+                window.location.href = "lista_clases.html";
+            } else {
+                // FLUJO DEL ALUMNO: Destruir la sesión por completo y regresar al login
+                localStorage.clear();
+                
+                alert("Sesión finalizada");
+                window.location.replace("index.html");
+            }
             
-            // Redirección forzando la ruptura del historial de navegación (Equivalente a FLAG_ACTIVITY_CLEAR_TASK)
-            window.location.replace("index.html");
         });
     }
 });

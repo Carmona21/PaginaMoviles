@@ -45,83 +45,78 @@ document.addEventListener("DOMContentLoaded", () => {
             let rolFinal = rolSeleccionado;
             let matriculaFinal = "N/A";
 
-            // --- VALIDACIONES LOCALES ---
-            if (nombre === "" || correo === "" || pass === "") {
-                alert("Completa todos los campos principales");
-                return;
-            }
+            const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const regexMatricula = /^\d{9}$/; 
+
+            // Limpiamos estilos de error
+            [etNombre, etCorreo, etPass, etMatricula, etCodigoMaestro].forEach(el => {
+                if(el) el.classList.remove('is-invalid');
+            });
+
+            let hayError = false;
+
+            if (nombre === "") { etNombre.classList.add('is-invalid'); hayError = true; }
+            if (correo === "" || !regexCorreo.test(correo)) { etCorreo.classList.add('is-invalid'); hayError = true; }
+            if (pass === "") { etPass.classList.add('is-invalid'); hayError = true; }
 
             if (rolSeleccionado === "maestro") {
                 const codigoIngresado = etCodigoMaestro.value.trim();
                 if (codigoIngresado !== "123456") {
+                    etCodigoMaestro.classList.add('is-invalid');
                     alert("Código de maestro incorrecto");
-                    etCodigoMaestro.focus();
-                    return;
+                    hayError = true;
+                } else {
+                    rolFinal = "admin";
                 }
-                rolFinal = "admin"; // Clasificación interna en Firebase
             } else {
                 matriculaFinal = etMatricula.value.trim();
-                if (matriculaFinal === "") {
-                    alert("La matrícula es obligatoria para los alumnos");
-                    etMatricula.focus();
-                    return;
-                }
-                if (matriculaFinal.length !== 9) {
-                    alert("La matrícula debe tener exactamente 9 dígitos");
-                    etMatricula.focus();
-                    return;
+                if (!regexMatricula.test(matriculaFinal)) {
+                    etMatricula.classList.add('is-invalid');
+                    alert("La matrícula debe tener exactamente 9 dígitos numéricos");
+                    hayError = true;
                 }
             }
 
-            // --- CONEXIÓN A FIREBASE (Búsqueda de duplicados) ---
+            if (hayError) return; // Si algún campo se pintó de rojo, detenemos todo
+
+            // --- CONEXIÓN A FIREBASE ---
             try {
                 const usuariosRef = ref(db, 'Usuarios');
                 const snapshot = await get(usuariosRef);
-                
                 let existeDuplicado = false;
 
                 if (snapshot.exists()) {
                     snapshot.forEach((userSnapshot) => {
                         const userDB = userSnapshot.val();
-                        const correoDB = userDB.correo;
-                        const matriculaDB = userDB.matricula;
-
-                        // A. Evitar correos repetidos
-                        if (correoDB && correoDB.toLowerCase() === correo.toLowerCase()) {
+                        
+                        if (userDB.correo && userDB.correo.toLowerCase() === correo.toLowerCase()) {
+                            etCorreo.classList.add('is-invalid');
                             alert("Este correo ya está registrado");
-                            etCorreo.focus();
                             existeDuplicado = true;
-                            return true; // Rompe el forEach
+                            return true; 
                         }
 
-                        // B. Evitar matrículas repetidas (Solo alumnos)
-                        if (rolFinal === "alumno" && matriculaDB && matriculaDB === matriculaFinal) {
+                        if (rolFinal === "alumno" && userDB.matricula && userDB.matricula === matriculaFinal) {
+                            etMatricula.classList.add('is-invalid');
                             alert("Esta matrícula ya pertenece a otra cuenta");
-                            etMatricula.focus();
                             existeDuplicado = true;
-                            return true; // Rompe el forEach
+                            return true; 
                         }
                     });
                 }
 
-                // --- GUARDAR USUARIO NUEVO ---
                 if (!existeDuplicado) {
                     const nuevoUsuarioRef = push(usuariosRef);
-                    const userId = nuevoUsuarioRef.key;
-
-                    const nuevoUsuario = {
-                        id: userId,
+                    await set(nuevoUsuarioRef, {
+                        id: nuevoUsuarioRef.key,
                         nombre: nombre,
                         correo: correo,
                         contrasena: pass, 
                         rol: rolFinal,
                         matricula: matriculaFinal
-                    };
-
-                    await set(nuevoUsuarioRef, nuevoUsuario);
-
+                    });
                     alert("Cuenta registrada exitosamente");
-                    window.location.href = "index.html"; // Regreso al Login
+                    window.location.href = "index.html"; 
                 }
 
             } catch (error) {

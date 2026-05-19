@@ -17,29 +17,39 @@ document.addEventListener("DOMContentLoaded", () => {
     async function validarUsuario() {
         const correoIngresado = etCorreo.value.trim();
         const passIngresada = etPass.value.trim();
+        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (correoIngresado === "" || passIngresada === "") {
-            // Equivalente a Toast.makeText(...)
-            alert("Ingresa tus credenciales");
+        // 1. Limpiamos alertas previas
+        etCorreo.classList.remove('is-invalid');
+        etPass.classList.remove('is-invalid');
+
+        let hayError = false;
+
+        // 2. Validamos cada campo individualmente
+        if (correoIngresado === "" || !regexCorreo.test(correoIngresado)) {
+            etCorreo.classList.add('is-invalid');
+            hayError = true;
+        }
+        
+        if (passIngresada === "") {
+            etPass.classList.add('is-invalid');
+            hayError = true;
+        }
+
+        // 3. Detenemos la ejecución si hay errores
+        if (hayError) {
+            alert("Por favor, verifica los campos marcados en rojo.");
             return;
         }
 
         try {
-            // Referencia a la tabla de Usuarios
-            // Equivalente a: DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Usuarios");
             const usuariosRef = ref(db, 'Usuarios');
-
-            // Buscamos al usuario por su correo
-            // Equivalente a: Query checkUser = reference.orderByChild("correo").equalTo(correoIngresado);
             const checkUser = query(usuariosRef, orderByChild('correo'), equalTo(correoIngresado));
-
-            // Equivalente a: checkUser.addListenerForSingleValueEvent(...)
             const snapshot = await get(checkUser);
 
             if (snapshot.exists()) {
                 let usuarioValido = false;
 
-                // El usuario existe, iteramos sobre los resultados (snapshot.getChildren())
                 snapshot.forEach((userSnapshot) => {
                     const userDB = userSnapshot.val();
                     const passDB = userDB.contrasena;
@@ -51,12 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         const nombreDB = userDB.nombre;
                         const matriculaDB = userDB.matricula;
 
-                        // Equivalente a getSharedPreferences("SESION", MODE_PRIVATE).edit().putString(...).apply();
-                        // En la web usamos localStorage para guardar la sesión
                         localStorage.setItem("nombre", nombreDB);
                         localStorage.setItem("matricula", matriculaDB);
-                        
-                        // NOTA: Como en la web no tenemos Intent.putExtra(), también guardamos el rol aquí
                         localStorage.setItem("rol", rol); 
 
                         accederSegunRol(rol);
@@ -64,13 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 if (!usuarioValido) {
+                    etPass.classList.add('is-invalid');
                     alert("Contraseña incorrecta");
                 }
             } else {
+                etCorreo.classList.add('is-invalid');
                 alert("El usuario no existe");
             }
         } catch (error) {
-            // Equivalente a public void onCancelled(@NonNull DatabaseError error)
             alert("Error de conexión: " + error.message);
         }
     }

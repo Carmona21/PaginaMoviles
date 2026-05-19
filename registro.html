@@ -37,30 +37,31 @@
 
                         <div class="mb-3">
                             <input type="password" class="form-control form-control-lg" id="etPassRegistro" placeholder="Contraseña" required>
+                            <div class="form-text text-secondary small">Mín. 8 caracteres, 1 mayúscula, 1 minúscula y 1 número.</div>
                         </div>
 
                         <div class="mb-3">
-                            <input type="text" id="etMatriculaRegistro" class="form-control form-control-lg" placeholder="Matrícula (9 dígitos)">
+                            <input type="text" id="etMatriculaRegistro" class="form-control form-control-lg" placeholder="Matrícula (9 dígitos)" maxlength="9">
                         </div>
 
 
-                        <p class="mb-2 mt-4">Selecciona tu rol:</p>
+                        <p class="mb-2 mt-4 fw-bold text-secondary small">Selecciona tu rol:</p>
                         <div class="mb-3">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="rolRadio" id="rbAlumno" checked>
-                                <label class="form-check-label" for="rbAlumno">Alumno</label>
+                                <label class="form-check-label fw-bold" for="rbAlumno">Alumno</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="rolRadio" id="rbMaestro">
-                                <label class="form-check-label" for="rbMaestro">Maestro</label>
+                                <label class="form-check-label fw-bold" for="rbMaestro">Maestro</label>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <input type="password" id="etCodigoMaestro" class="form-control mb-3" placeholder="Código de Maestro (123456)">
+                            <input type="password" id="etCodigoMaestro" class="form-control mb-3 form-control-lg" placeholder="Código de Maestro (123456)">
                         </div>
 
-                        <button id="btnFinalizarRegistro" class="btn btn-success w-100 mt-2">Registrar</button>
+                        <button id="btnFinalizarRegistro" class="btn btn-success btn-lg rounded-4 w-100 mt-2 fw-bold">Registrar cuenta</button>
                     </form>
 
                 </div>
@@ -70,9 +71,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="js/registro.js"></script>
-    <script
-        src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
-        type="module"
-    ></script>
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
 </body>
 </html>

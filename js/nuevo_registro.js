@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Mostrar el NRC en la vista para contexto visual
     document.getElementById("tvSubtituloNuevo").innerText = `Materia activa - NRC: ${nrcActual}`;
 
     const form = document.getElementById("formNuevoRegistro");
@@ -21,17 +20,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const etFecha = document.getElementById("etFecha");
     const etHora = document.getElementById("etHora");
 
+    // --- RESTRICCIONES EN TIEMPO REAL ---
+
     // Restricción para permitir solo números en el campo de matrícula
     etMatricula.addEventListener('input', (e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
     });
 
-    // Precargar fecha y hora actuales
-    const ahora = new Date();
-    etFecha.value = ahora.toLocaleDateString('en-CA'); // Formato YYYY-MM-DD
-    etHora.value = ahora.toTimeString().substring(0, 5); // Formato HH:MM (24h)
+    // NUEVO: Bloquear números y símbolos en el Nombre, solo permite letras y espacios
+    etNombre.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    });
 
-    // Función auxiliar para convertir la hora del input (24h) a formato AM/PM
+    // Precargar fecha/hora y limitar el calendario para que no permita fechas futuras
+    const ahora = new Date();
+    const hoyStr = ahora.toLocaleDateString('en-CA'); // Formato YYYY-MM-DD local
+    
+    etFecha.value = hoyStr; 
+    etFecha.max = hoyStr; // Esta propiedad HTML bloquea los días de mañana en adelante en el calendario
+    
+    etHora.value = ahora.toTimeString().substring(0, 5); 
+
+    // Función auxiliar para convertir la hora a AM/PM
     const convertirA12h = (hora24) => {
         if (!hora24) return "";
         let [hours, minutes] = hora24.split(':');
@@ -41,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
     };
 
+    // --- VALIDACIÓN FINAL ---
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -48,46 +59,65 @@ document.addEventListener("DOMContentLoaded", () => {
         const nombreVal = etNombre.value.trim();
         const fechaVal = etFecha.value;
         const hora24Val = etHora.value;
-        
-        const regexMatricula = /^\d{9}$/;
-        const hoyStr = new Date().toLocaleDateString('en-CA'); 
 
-        // Limpiar errores visuales
+        // Limpiamos errores visuales de intentos anteriores
         [etMatricula, etNombre, etFecha, etHora].forEach(el => el.classList.remove('is-invalid'));
-        
+
         let hayError = false;
 
-        if (!regexMatricula.test(matriculaVal)) { etMatricula.classList.add('is-invalid'); hayError = true; }
-        if (nombreVal === "") { etNombre.classList.add('is-invalid'); hayError = true; }
-        if (hora24Val === "") { etHora.classList.add('is-invalid'); hayError = true; }
-        
-        if (fechaVal === "" || fechaVal > hoyStr) { 
-            etFecha.classList.add('is-invalid'); 
-            hayError = true; 
+        if (matriculaVal.length !== 9) {
+            etMatricula.classList.add('is-invalid');
+            hayError = true;
         }
 
-        if (hayError) {
-            alert("Por favor, verifica los campos en rojo. Recuerda que no puedes registrar fechas futuras.");
-            return;
+        if (nombreVal === "" || nombreVal.length < 3) {
+            etNombre.classList.add('is-invalid');
+            hayError = true;
         }
+
+        // Validación extra de fecha por si alguien burla el límite del HTML
+        if (fechaVal === "") {
+            etFecha.classList.add('is-invalid');
+            hayError = true;
+        } else {
+            const fechaIngresada = new Date(fechaVal);
+            const fechaLimite = new Date(hoyStr);
+            
+            if (fechaIngresada > fechaLimite) {
+                etFecha.classList.add('is-invalid');
+                alert("No es posible registrar asistencias en una fecha futura.");
+                hayError = true;
+            }
+        }
+
+        if (hora24Val === "") {
+            etHora.classList.add('is-invalid');
+            hayError = true;
+        }
+
+        if (hayError) return;
 
         try {
+            const dbRef = ref(db);
             const idCompuesto = `${matriculaVal}_${nrcActual}_${fechaVal}`;
-            const snapshot = await get(child(ref(db), `Asistencias/${idCompuesto}`));
+            
+            const snapshot = await get(child(dbRef, `Asistencias/${idCompuesto}`));
 
             if (snapshot.exists()) {
                 alert("Este alumno ya tiene una asistencia registrada para esta materia en la fecha seleccionada.");
                 return;
             }
 
-            await set(ref(db, `Asistencias/${idCompuesto}`), {
+            const nuevaAsistencia = {
                 id: idCompuesto,
                 matricula: matriculaVal,
                 nombre: nombreVal,
                 fecha: fechaVal,
-                hora: convertirA12h(hora24Val), 
+                hora: convertirA12h(hora24Val),
                 nrc: nrcActual
-            });
+            };
+
+            await set(ref(db, `Asistencias/${idCompuesto}`), nuevaAsistencia);
 
             alert("Asistencia registrada exitosamente.");
             window.location.href = "gestion.html";

@@ -14,18 +14,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const rbAlumno = document.getElementById('rbAlumno');
     const btnRegistrar = document.getElementById('btnFinalizarRegistro');
 
+    // --- RESTRICCIONES EN TIEMPO REAL ---
+    
+    // Bloquear números y símbolos en el Nombre (solo permite letras y espacios)
+    etNombre.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    });
+
+    // Bloquear letras y limitar estrictamente a 9 caracteres en la Matrícula
+    if (etMatricula) {
+        etMatricula.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 9);
+        });
+    }
+
     // 2. Estado Inicial de la vista (Alumno por defecto)
     if (etCodigoMaestro) etCodigoMaestro.style.display = 'none';
     if (etMatricula) etMatricula.style.display = 'block';
 
-    // 3. Mostrar/Ocultar campos dinámicos al cambiar el RadioButton
+    // 3. Mostrar/Ocultar campos dinámicos
     const cambiarRol = () => {
         if (rbMaestro && rbMaestro.checked) {
-            etCodigoMaestro.style.display = 'block'; // Mostrar código maestro
-            etMatricula.style.display = 'none';      // Ocultar matrícula
+            etCodigoMaestro.style.display = 'block'; 
+            etMatricula.style.display = 'none';      
         } else {
-            etCodigoMaestro.style.display = 'none';  // Ocultar código maestro
-            etMatricula.style.display = 'block';     // Mostrar matrícula
+            etCodigoMaestro.style.display = 'none';  
+            etMatricula.style.display = 'block';     
         }
     };
 
@@ -45,8 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
             let rolFinal = rolSeleccionado;
             let matriculaFinal = "N/A";
 
+            // --- EXPRESIONES REGULARES ---
             const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const regexMatricula = /^\d{9}$/; 
+            // Contraseña: Mínimo 8 caracteres, 1 letra mayúscula, 1 letra minúscula y 1 número
+            const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
             // Limpiamos estilos de error
             [etNombre, etCorreo, etPass, etMatricula, etCodigoMaestro].forEach(el => {
@@ -55,9 +72,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let hayError = false;
 
-            if (nombre === "") { etNombre.classList.add('is-invalid'); hayError = true; }
-            if (correo === "" || !regexCorreo.test(correo)) { etCorreo.classList.add('is-invalid'); hayError = true; }
-            if (pass === "") { etPass.classList.add('is-invalid'); hayError = true; }
+            if (nombre === "" || nombre.length < 3) { 
+                etNombre.classList.add('is-invalid'); 
+                alert("Ingresa un nombre válido.");
+                hayError = true; 
+            }
+            
+            if (correo === "" || !regexCorreo.test(correo)) { 
+                etCorreo.classList.add('is-invalid'); 
+                alert("Ingresa un formato de correo electrónico válido.");
+                hayError = true; 
+            }
+            
+            if (!regexPass.test(pass)) { 
+                etPass.classList.add('is-invalid'); 
+                alert("La contraseña es muy débil. Asegúrate de que tenga al menos 8 caracteres, incluyendo una mayúscula, una minúscula y un número.");
+                hayError = true; 
+            }
 
             if (rolSeleccionado === "maestro") {
                 const codigoIngresado = etCodigoMaestro.value.trim();
@@ -77,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            if (hayError) return; // Si algún campo se pintó de rojo, detenemos todo
+            if (hayError) return; 
 
             // --- CONEXIÓN A FIREBASE ---
             try {
